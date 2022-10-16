@@ -45,7 +45,7 @@ fn main() {
     let formula = "1011||=";
     println!("{} : {}", formula, eval_formula(formula));
 
-    println!("\n__________Truth_table__________");
+    println!("\n__________Truth_table__________\n");
     let formula = "AB&C|";
     println!("{formula}:");
     print_truth_table(formula);
@@ -55,4 +55,82 @@ fn main() {
     let formula = "AB^C^";
     println!("\n{formula}:");
     print_truth_table(formula);
+
+    println!("\n__________Negation_normal_form__________\n");
+
+    let formula = "AB|C&";
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
+
+    let formula = "AB&!";
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
+
+    let formula = "AB|C&!!";
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
+    
+    let formula = "AB^!";
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
+
+    let formula = "AB>!";
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
+
+    let formula = "AB=!";
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
+
+    let formula = "AB=";
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
+
+    println!("enter an expression:");
+    let mut formula = String::new();
+    std::io::stdin().read_line(&mut formula);
+    formula.pop();
+    let formula = formula.as_str();
+    let res = negation_normal_form(formula);
+    println!("formula truth table: ({})", formula);
+    print_truth_table(formula);
+    println!();
+    println!("negation form truth table: ({})", res);
+    print_truth_table(res.as_str());
+    println!();
 }
