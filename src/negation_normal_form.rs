@@ -1,14 +1,13 @@
-use std::{rc::Rc, ops::Deref};
+use std::thread::panicking;
 
-#[derive(Clone)]
-struct BTNode {
-    pub left: Option<Box<BTNode>>,
-    pub right: Option<Box<BTNode>>,
-    pub value: char
-}
+use ready_set_boole::*;
+
+
+//ab|! -> a!b!&
+//ab&! -> a!b!|
 
 fn negate(node: &mut BTNode) {
-    if (node.value >= 'A' && node.value <= 'Z') {
+    if node.value >= 'A' && node.value <= 'Z' {
         node.left = Some(Box::new(BTNode { left: None, right: None, value: node.value }));
         node.value = '!';
     } else {
@@ -37,27 +36,14 @@ fn negate(node: &mut BTNode) {
                 let l = node.left.as_mut().unwrap();
                 negate(l.left.as_mut().unwrap());
                 negate(l.right.as_mut().unwrap());
+                //negate(l.left.as_mut().unwrap());
+                //negate(l.right.as_mut().unwrap());
             },
             _ => {}
         }
     } 
 }
 
-fn nodeToString(node: &BTNode) -> String {
-    let mut res = String::new();
-    let l = match &node.left {
-        Some(l) => nodeToString(l),
-        None => String::from(""),
-    };
-    let r = match &node.right {
-        Some(r) => nodeToString(r),
-        None => String::from(""),
-    };
-    res.push_str(&l);
-    res.push_str(&r);
-    res.push(node.value);
-    res
-}
 
 pub fn negation_normal_form(formula: &str) -> String {
     let mut v: Vec<BTNode> = vec![];
@@ -84,6 +70,13 @@ pub fn negation_normal_form(formula: &str) -> String {
                     negate(&mut node);
                     v.push(node);
                 }
+                '^' => {
+                    let b = v.pop().unwrap();
+                    let a = v.pop().unwrap();
+                    v.push(BTNode {left: Some(Box::new(a)), right: Some(Box::new(b)), value: c});
+                    negate(v.last_mut().unwrap());
+                    negate(v.last_mut().unwrap());
+                }
                 _ => {
                     let b = v.pop().unwrap();
                     let a = v.pop().unwrap();
@@ -91,8 +84,13 @@ pub fn negation_normal_form(formula: &str) -> String {
                 }
             }
         }
-        //dbg!(nodeToString(v.last().unwrap()));
+        //dbg!(node_to_string(v.last().unwrap()));
     }
 
-    return nodeToString(v.last().unwrap());
+    if v.len() != 1 {
+
+        panic!("Invalid formula in negation_normal_form -> v.len() = {}", v.len());
+    }
+
+    return node_to_string(v.last().unwrap());
 }

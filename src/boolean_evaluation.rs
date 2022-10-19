@@ -1,4 +1,3 @@
-
 pub fn eval_formula(formula: &str) -> bool {
     let mut v: Vec<bool> = vec![];
     for c in formula.chars() {
@@ -46,4 +45,3 @@ pub fn eval_formula(formula: &str) -> bool {
     }
     v.pop().unwrap()
 }
-

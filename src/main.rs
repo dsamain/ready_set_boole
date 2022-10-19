@@ -4,6 +4,7 @@ mod gray_code;
 mod boolean_evaluation;
 mod truth_table;
 mod negation_normal_form;
+mod conjunctive_normal_form;
 
 use adder::*;
 use multiplier::*;
@@ -11,6 +12,9 @@ use gray_code::*;
 use boolean_evaluation::*;
 use truth_table::*;
 use negation_normal_form::*;
+use conjunctive_normal_form::*;
+use ready_set_boole::*;
+use colored::Colorize;
 
 const N: u32 = 7;
 
@@ -58,79 +62,17 @@ fn main() {
 
     println!("\n__________Negation_normal_form__________\n");
 
-    let formula = "AB|C&";
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
+    for _ in 0..10 {
+        let formula = generate_formula();
+        let res = negation_normal_form(formula.as_str());
+        println!("{} -> {} {}", formula.bright_black(), res.blue(), if compare_formula(formula.as_str(), res.as_str()) {format!("OK").green()} else {format!("KO").red()});
+    }
 
-    let formula = "AB&!";
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
+    println!("\n__________Conjonctive_normal_form__________\n");
 
-    let formula = "AB|C&!!";
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
-    
-    let formula = "AB^!";
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
-
-    let formula = "AB>!";
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
-
-    let formula = "AB=!";
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
-
-    let formula = "AB=";
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
-
-    println!("enter an expression:");
-    let mut formula = String::new();
-    std::io::stdin().read_line(&mut formula);
-    formula.pop();
-    let formula = formula.as_str();
-    let res = negation_normal_form(formula);
-    println!("formula truth table: ({})", formula);
-    print_truth_table(formula);
-    println!();
-    println!("negation form truth table: ({})", res);
-    print_truth_table(res.as_str());
-    println!();
+    for _ in 0..10 {
+        let formula = generate_formula();
+        let res = conjunctive_normal_form(formula.as_str());
+        println!("{} -> {} {}", formula.bright_black(), res.blue(), if compare_formula(formula.as_str(), res.as_str()) {format!("OK").green()} else {format!("KO").red()});
+    }
 }
