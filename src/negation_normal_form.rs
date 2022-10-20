@@ -1,4 +1,3 @@
-use std::thread::panicking;
 
 use ready_set_boole::*;
 

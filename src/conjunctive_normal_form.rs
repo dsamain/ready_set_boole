@@ -1,6 +1,4 @@
 
-use std::mem::swap;
-
 use crate::negation_normal_form::*;
 use ready_set_boole::*;
 
@@ -9,30 +7,19 @@ fn handle_or(node: &mut BTNode) -> bool {
     let l = node.left.as_mut().unwrap();
     let r = node.right.as_mut().unwrap();
     if l.value == '&' {
-        let mut a = Some(Box::new(BTNode { left: l.left.clone(), right: node.right.clone(), value: '|' }));
-        let mut b = Some(Box::new(BTNode { left: l.right.clone(), right: node.right.clone(), value: '|' }));
+        let a = Some(Box::new(BTNode { left: l.left.clone(), right: node.right.clone(), value: '|' }));
+        let b = Some(Box::new(BTNode { left: l.right.clone(), right: node.right.clone(), value: '|' }));
         node.value = '&';
         node.left = a;
         node.right = b;
         return true;
     }
     else if r.value == '&' {
-        let mut a = Some(Box::new(BTNode { left: r.left.clone(), right: node.left.clone(), value: '|' }));
-        let mut b = Some(Box::new(BTNode { left: r.right.clone(), right: node.left.clone(), value: '|' }));
+        let a = Some(Box::new(BTNode { left: r.left.clone(), right: node.left.clone(), value: '|' }));
+        let b = Some(Box::new(BTNode { left: r.right.clone(), right: node.left.clone(), value: '|' }));
         node.value = '&';
         node.left = a;
         node.right = b;
-        return true;
-    }
-    return false;
-}
-
-fn handle_and(node: &mut BTNode) -> bool {
-    if node.left.as_ref().unwrap().value == '&' && node.right.as_ref().unwrap().value != '&' {
-        let l = node.left.clone();
-        let r = node.right.clone();
-        node.right = l;
-        node.left = r;
         return true;
     }
     return false;
@@ -51,7 +38,7 @@ pub fn conjunctive_normal_form(formula: &str) -> String {
             } else {
                 match c {
                     '!' => {
-                        let mut node = v.pop().unwrap();
+                        let node = v.pop().unwrap();
                         v.push(BTNode {left: Some(Box::new(node)), right: None, value: '!'});
                     },
                     '|' => {

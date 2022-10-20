@@ -68,16 +68,13 @@ pub fn compare_formula (formula1: &str, formula2: &str) -> bool {
 }
 
 pub fn generate_formula() -> String {
-    let mut cnt: i32 = 0;    
-    let mut res: String = String::new();
-
     let mut expr: Vec<String>  = vec![];
 
     for i in 'A'..='Z' {
         expr.push(i.to_string());
     }
 
-    for i in 0..15 {
+    for _ in 0..15 {
         let a = &expr[rand::random::<usize>() % expr.len()];
         let b = &expr[rand::random::<usize>() % expr.len()];
         let c = match rand::random::<usize>() % 5 {
